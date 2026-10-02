@@ -1,0 +1,167 @@
+{
+  "info": {
+    "name": "VELoop Daily Streak",
+    "description": "Auth, streak, wallet flows + negative/anti-cheat tests.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:5000/api" },
+    { "key": "token", "value": "" },
+    { "key": "otherToken", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/auth/register",
+            "body": { "mode": "raw", "raw": "{\n  \"username\": \"demo\",\n  \"email\": \"demo@veloop.test\",\n  \"password\": \"Demo@1234\"\n}" }
+          }
+        },
+        {
+          "name": "Login",
+          "event": [{
+            "listen": "test",
+            "script": { "exec": ["var d=pm.response.json(); if(d.token) pm.collectionVariables.set('token', d.token);"] }
+          }],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/auth/login",
+            "body": { "mode": "raw", "raw": "{\n  \"email\": \"demo@veloop.test\",\n  \"password\": \"Demo@1234\"\n}" }
+          }
+        },
+        {
+          "name": "Me",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/auth/me"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Daily Streak",
+      "item": [
+        {
+          "name": "Get Streak (full)",
+          "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": "{{baseUrl}}/daily-streak" }
+        },
+        {
+          "name": "Get Status (light poll)",
+          "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": "{{baseUrl}}/daily-streak/status" }
+        },
+        {
+          "name": "Initiate Claim (CPA demo)",
+          "event": [{
+            "listen": "test",
+            "script": { "exec": ["var d=pm.response.json(); if(d.sessionToken) pm.collectionVariables.set('sessionToken', d.sessionToken);"] }
+          }],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/daily-streak/claim/initiate",
+            "body": { "mode": "raw", "raw": "{}" }
+          }
+        },
+        {
+          "name": "Claim Reward",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/daily-streak/claim",
+            "body": { "mode": "raw", "raw": "{\n  \"sessionToken\": \"{{sessionToken}}\"\n}" }
+          }
+        },
+        {
+          "name": "Get History",
+          "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": "{{baseUrl}}/daily-streak/history?page=1&limit=20" }
+        }
+      ]
+    },
+    {
+      "name": "Wallet",
+      "item": [
+        { "name": "Get Wallet", "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": "{{baseUrl}}/wallet" } },
+        { "name": "Get Transactions", "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": "{{baseUrl}}/wallet/transactions" } }
+      ]
+    },
+    {
+      "name": "Negative / Anti-cheat tests",
+      "item": [
+        {
+          "name": "No token -> 401",
+          "request": { "method": "GET", "url": "{{baseUrl}}/daily-streak" }
+        },
+        {
+          "name": "Fake day jump ({ day: 7 }) -> 400 DAY_MISMATCH",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/daily-streak/claim",
+            "body": { "mode": "raw", "raw": "{ \"day\": 7 }" }
+          }
+        },
+        {
+          "name": "Fake reward amount -> ignored, real amount returned",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/daily-streak/claim",
+            "body": { "mode": "raw", "raw": "{ \"reward\": 1000000, \"currency\": \"VES\" }" }
+          }
+        },
+        {
+          "name": "Fake userId in body -> ignored, JWT identity wins",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/daily-streak/claim",
+            "body": { "mode": "raw", "raw": "{ \"userId\": \"000000000000000000000000\" }" }
+          }
+        },
+        {
+          "name": "NoSQL injection attempt -> 400 INVALID_INPUT",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/auth/login",
+            "body": { "mode": "raw", "raw": "{ \"email\": { \"$gt\": \"\" }, \"password\": \"x\" }" }
+          }
+        },
+        {
+          "name": "Duplicate claim (run twice back-to-back)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/daily-streak/claim",
+            "body": { "mode": "raw", "raw": "{}" }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Dev tools (only if ENABLE_DEV_TOOLS=true)",
+      "item": [
+        {
+          "name": "Time travel +25h",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/dev/time-travel",
+            "body": { "mode": "raw", "raw": "{ \"hours\": 25 }" }
+          }
+        },
+        {
+          "name": "Time reset",
+          "request": { "method": "POST", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": "{{baseUrl}}/dev/time-reset" }
+        }
+      ]
+    }
+  ]
+}

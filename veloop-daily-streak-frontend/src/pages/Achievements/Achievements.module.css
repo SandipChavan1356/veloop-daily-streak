@@ -1,0 +1,19 @@
+.overall { display: flex; align-items: center; gap: 12px; font-family: var(--font-display); font-weight: 700; font-size: 0.85rem; color: var(--text-secondary); }
+.overallBar { flex: 1; height: 8px; border-radius: 8px; background: rgba(167, 139, 250, 0.16); overflow: hidden; }
+.overallFill { height: 100%; border-radius: 8px; background: linear-gradient(90deg, var(--violet-500), var(--gold-400)); transition: width 1s var(--ease-out); }
+.badge { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 20px 14px 16px; border-radius: var(--radius-lg); background: var(--glass); border: 1px solid var(--border); animation: vl-rise 520ms var(--ease-out) both; transition: transform var(--dur-fast) var(--ease-out), border-color var(--dur-fast); }
+.badge:hover { transform: translateY(-3px); border-color: var(--border-strong); }
+.medal { position: relative; width: 64px; height: 64px; border-radius: 50%; display: grid; place-items: center; color: var(--text-muted); background: rgba(10, 6, 24, 0.6); border: 2px dashed rgba(167, 139, 250, 0.3); margin-bottom: 12px; }
+.state { position: absolute; right: -2px; bottom: -2px; width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; background: var(--surface-raised); border: 1px solid var(--border-strong); color: var(--text-muted); }
+.on .state { background: var(--green-500); border-color: transparent; color: #052e14; }
+.on .medal { border-style: solid; border-color: transparent; color: var(--text-on-gold); }
+.bronze.on .medal { background: linear-gradient(145deg, #f0b27a, #b9692b); box-shadow: 0 8px 22px rgba(185, 105, 43, 0.4); }
+.silver.on .medal { background: linear-gradient(145deg, #eef0f7, #9aa3bd); box-shadow: 0 8px 22px rgba(154, 163, 189, 0.35); }
+.gold.on .medal { background: var(--gold-grad); box-shadow: 0 8px 24px var(--gold-glow); }
+.violet.on .medal { background: linear-gradient(145deg, #c4b0ff, #7c3aed); color: #fff; box-shadow: 0 8px 24px var(--violet-glow); }
+.title { font-family: var(--font-display); font-weight: 700; font-size: 0.98rem; }
+.desc { color: var(--text-muted); font-size: 0.78rem; line-height: 1.4; margin: 4px 0 14px; flex: 1; }
+.prog { width: 100%; display: flex; align-items: center; gap: 8px; font-size: 0.7rem; font-weight: 700; color: var(--text-secondary); font-family: var(--font-display); }
+.progBar { flex: 1; height: 6px; border-radius: 6px; background: rgba(167, 139, 250, 0.16); overflow: hidden; }
+.progFill { height: 100%; border-radius: 6px; background: linear-gradient(90deg, var(--violet-500), var(--gold-400)); }
+.on .progFill { background: var(--green-500); }

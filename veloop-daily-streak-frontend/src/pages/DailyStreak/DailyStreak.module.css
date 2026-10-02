@@ -1,0 +1,2 @@
+/* Renders inside the app shell's <main>; the shell owns padding, nav and background. */
+.page { position: relative; }

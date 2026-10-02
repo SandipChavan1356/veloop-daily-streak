@@ -1,0 +1,9 @@
+.wrap { position: relative; min-height: 62vh; display: grid; place-items: center; }
+.center { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 14px; }
+.orb { position: relative; width: 150px; height: 150px; display: grid; place-items: center; }
+.ring, .ring2 { position: absolute; inset: 0; border-radius: 50%; border: 2px solid transparent; border-top-color: var(--gold-400); border-right-color: rgba(245, 196, 81, 0.25); animation: spin 1.3s linear infinite; }
+.ring2 { inset: 14px; border-top-color: var(--violet-400); border-right-color: rgba(167, 139, 250, 0.2); animation-duration: 2s; animation-direction: reverse; }
+.brand { display: flex; align-items: center; gap: 8px; font-family: var(--font-display); font-weight: 800; font-size: 1.4rem; letter-spacing: -0.02em; }
+.text { color: var(--text-muted); font-size: 0.9rem; animation: breathe 1.8s ease-in-out infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes breathe { 0%, 100% { opacity: 0.55; } 50% { opacity: 1; } }

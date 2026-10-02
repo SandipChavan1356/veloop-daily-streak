@@ -1,0 +1,11 @@
+.cur { font-family: var(--font-display); font-weight: 800; color: var(--gold-300); }
+.bar { height: 10px; border-radius: 10px; background: rgba(167, 139, 250, 0.16); overflow: hidden; }
+.fill { height: 100%; border-radius: 10px; background: linear-gradient(90deg, var(--violet-500), var(--gold-400)); box-shadow: 0 0 14px var(--gold-glow); transition: width 1s var(--ease-out); }
+.next { margin: 10px 0 18px; color: var(--text-secondary); font-size: 0.86rem; }
+.next b { color: var(--text-primary); }
+.max { color: var(--green-400) !important; }
+.steps { list-style: none; margin: 0; padding: 0; display: flex; justify-content: space-between; gap: 6px; }
+.step { display: flex; flex-direction: column; align-items: center; gap: 6px; font-size: 0.74rem; font-weight: 700; color: var(--text-muted); font-family: var(--font-display); }
+.node { width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center; border: 2px solid rgba(167, 139, 250, 0.3); background: var(--surface); }
+.reached { color: var(--green-400); }
+.reached .node { background: var(--green-500); border-color: transparent; color: #052e14; box-shadow: 0 0 12px var(--green-glow); }

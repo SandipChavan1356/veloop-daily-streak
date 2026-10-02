@@ -1,0 +1,11 @@
+.head { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; margin-bottom: 22px; flex-wrap: wrap; }
+.titleWrap { display: flex; align-items: center; gap: 14px; }
+.icon {
+  width: 46px; height: 46px; border-radius: 15px; display: grid; place-items: center; flex-shrink: 0;
+  color: var(--gold-300);
+  background: linear-gradient(145deg, rgba(245, 196, 81, 0.16), rgba(139, 92, 246, 0.14));
+  border: 1px solid rgba(245, 196, 81, 0.28);
+}
+.title { font-size: clamp(1.5rem, 2.4vw, 2rem); font-weight: 700; }
+.sub { color: var(--text-muted); font-size: 0.92rem; margin-top: 3px; }
+.actions { display: flex; gap: 10px; align-items: center; }

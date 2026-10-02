@@ -1,0 +1,11 @@
+.card { display: flex; align-items: center; gap: 22px; padding: 26px; border-radius: var(--radius-xl); background: linear-gradient(120deg, rgba(124, 58, 237, 0.28), rgba(21, 13, 42, 0.9)); border: 1px solid var(--border-strong); box-shadow: var(--highlight), 0 16px 36px rgba(0, 0, 0, 0.35); }
+.info { min-width: 0; }
+.name { font-size: 1.6rem; font-weight: 800; }
+.row { display: flex; align-items: center; gap: 8px; color: var(--text-secondary); font-size: 0.9rem; margin-top: 6px; }
+.row svg { color: var(--violet-300); }
+.bal { display: flex; align-items: center; gap: 16px; padding: 18px 22px; border-radius: var(--radius-lg); background: var(--glass); border: 1px solid var(--border); }
+.balVes svg { color: var(--violet-300); }
+.balInr svg { color: var(--gold-300); }
+.balLabel { color: var(--text-muted); font-size: 0.82rem; }
+.balVal { font-family: var(--font-display); font-weight: 800; font-size: 1.8rem; }
+@media (max-width: 520px) { .card { flex-direction: column; text-align: center; } .row { justify-content: center; } }

@@ -1,0 +1,11 @@
+.logo { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; }
+.mark {
+  width: 40px; height: 40px; border-radius: 13px;
+  display: grid; place-items: center;
+  background: linear-gradient(145deg, #3a2477 0%, #1c1038 100%);
+  border: 1px solid var(--border-strong);
+  box-shadow: 0 6px 18px rgba(124, 58, 237, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+.text { display: flex; flex-direction: column; line-height: 1; }
+.name { font-family: var(--font-display); font-weight: 800; font-size: 1.15rem; color: var(--text-primary); letter-spacing: -0.02em; }
+.tag { margin-top: 4px; font-size: 0.72rem; font-weight: 600; color: var(--gold-400); }

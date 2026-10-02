@@ -1,0 +1,28 @@
+.section { margin-top: 24px; }
+.head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 8px; }
+.h { font-size: clamp(1.5rem, 1.1rem + 1.2vw, 2rem); font-weight: 800; letter-spacing: -0.03em; }
+.p { font-family: var(--font-mono); font-size: 0.82rem; color: var(--text-muted); }
+.p b { color: var(--cyan-300); font-weight: 600; }
+
+.hostWrap { width: 100%; }
+.box { position: relative; container-type: inline-size; width: 100%; }
+.vertical { max-width: 440px; margin: 0 auto; }
+.paths { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.paths path { fill: none; stroke-linecap: round; }
+.far { stroke: rgba(255, 255, 255, 0.14); stroke-width: 2; stroke-dasharray: 2 9; }
+.lit { stroke-width: 3.5; stroke-dasharray: 1; filter: drop-shadow(0 0 7px rgba(56, 213, 255, 0.55)); animation: draw 1100ms var(--ease-out) both; animation-delay: calc(var(--i) * 160ms + 350ms); }
+.energy { stroke: #fff; stroke-width: 3.5; stroke-dasharray: 0.05 0.95; opacity: 0.9; animation: flow 3.6s linear infinite; animation-delay: calc(var(--i) * 0.4s + 1.6s); filter: drop-shadow(0 0 5px #fff); }
+
+.inspector { display: flex; align-items: center; gap: clamp(16px, 3vw, 36px); margin-top: 6px; padding: 18px clamp(18px, 3vw, 32px) 18px 8px; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); background: linear-gradient(90deg, rgba(245, 196, 81, 0.05), transparent 60%); }
+.iText { flex: 1; min-width: 0; }
+.iKicker { font-family: var(--font-mono); font-size: 0.74rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); }
+.iTitle { margin-top: 4px; font-family: var(--font-display); font-weight: 800; font-size: 2rem; letter-spacing: -0.04em; line-height: 1; }
+.iTitle i { font-family: var(--font-mono); font-style: normal; font-weight: 500; font-size: 0.85rem; color: var(--text-secondary); letter-spacing: 0; }
+.iSub { margin-top: 5px; color: var(--text-secondary); font-size: 0.95rem; }
+.iClaim { display: inline-flex; align-items: center; gap: 8px; min-height: 48px; padding: 0 24px; border: none; border-radius: 14px; cursor: pointer; background: var(--gold-grad); color: var(--text-on-gold); font-family: var(--font-display); font-weight: 700; font-size: 1rem; box-shadow: 0 10px 24px rgba(245, 170, 40, 0.26); }
+.iClaim:disabled { opacity: 0.65; cursor: wait; }
+.spin { animation: spin 0.9s linear infinite; }
+
+@keyframes draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+@keyframes flow { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+@keyframes spin { to { transform: rotate(360deg); } }

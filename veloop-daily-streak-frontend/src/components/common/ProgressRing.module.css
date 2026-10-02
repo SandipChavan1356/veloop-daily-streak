@@ -1,0 +1,4 @@
+.wrap { position: relative; display: inline-grid; place-items: center; }
+.svg { position: absolute; inset: 0; filter: drop-shadow(0 0 10px rgba(245, 196, 81, 0.28)); }
+.arc { transition: stroke-dashoffset 1.1s var(--ease-out); }
+.inner { position: relative; text-align: center; }

@@ -1,0 +1,10 @@
+.banner { display: flex; align-items: flex-start; gap: 10px; margin-top: 18px; padding: 2px 0 2px 14px; font-size: 0.86rem; border-left: 2px solid var(--amber, #f59e0b); animation: vl-fade 400ms ease-out both; }
+.icon { flex-shrink: 0; margin-top: 1px; display: grid; place-items: center; }
+.text { flex: 1; color: var(--text-secondary); line-height: 1.4; }
+.text b { color: var(--text-primary); font-weight: 600; }
+.risk { --amber: #f59e0b; flex-wrap: wrap; }
+.risk .icon { color: #fbbf24; }
+.time { width: 100%; padding-left: 26px; font-family: var(--font-mono); font-size: 1rem; font-weight: 600; color: #fbbf24; }
+.reset { --amber: #f87171; }
+.reset .icon { color: #fca5a5; }
+.dismiss { background: none; border: none; color: var(--text-muted); cursor: pointer; padding: 2px; }

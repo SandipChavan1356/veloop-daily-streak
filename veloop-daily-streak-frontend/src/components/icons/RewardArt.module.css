@@ -1,0 +1,41 @@
+/* Subtle, premium motion only: float, soft glow, shine sweep, slow spin. */
+.floatSlow { animation: float 5.5s ease-in-out infinite; transform-origin: center; }
+.floatMed { animation: float 4s ease-in-out infinite; transform-origin: center; }
+.pulseGlow { animation: pulse 3.6s ease-in-out infinite; transform-origin: center; transform-box: fill-box; }
+.spinSlow { animation: spin 38s linear infinite; transform-origin: center; transform-box: fill-box; }
+.spinRays { animation: spin 60s linear infinite; transform-origin: center; transform-box: fill-box; }
+.lid { animation: lid 3.4s ease-in-out infinite; transform-origin: center; }
+.twinkle { animation: twinkle 2.8s ease-in-out infinite; transform-origin: center; transform-box: fill-box; }
+.twinkle2 { animation: twinkle 3.4s ease-in-out 0.9s infinite; transform-origin: center; transform-box: fill-box; }
+.twinkle3 { animation: twinkle 3s ease-in-out 1.7s infinite; transform-origin: center; transform-box: fill-box; }
+.flicker { animation: flicker 2.6s ease-in-out infinite; transform-origin: 50% 90%; transform-box: fill-box; }
+.shine { animation: sweep 4.2s ease-in-out infinite; }
+
+.asset { display: block; object-fit: contain; animation: float 5s ease-in-out infinite; filter: drop-shadow(0 8px 14px rgba(0, 0, 0, 0.45)); }
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+@keyframes pulse {
+  0%, 100% { opacity: 0.75; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.05); }
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes lid {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-2px) rotate(-1.2deg); }
+}
+@keyframes twinkle {
+  0%, 100% { opacity: 0.2; transform: scale(0.6); }
+  50% { opacity: 1; transform: scale(1); }
+}
+@keyframes flicker {
+  0%, 100% { transform: scale(1, 1); }
+  35% { transform: scale(1.04, 1.07); }
+  65% { transform: scale(0.98, 1.02); }
+}
+@keyframes sweep {
+  0%, 55% { transform: translateX(-44px); }
+  100% { transform: translateX(60px); }
+}

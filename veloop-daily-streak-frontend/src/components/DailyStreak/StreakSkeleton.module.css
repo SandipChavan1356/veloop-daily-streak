@@ -1,0 +1,5 @@
+.page { margin-top: 6px; }
+.stage { display: grid; grid-template-columns: 1fr minmax(0, 380px) 1fr; gap: 40px; align-items: center; }
+.side { display: flex; flex-direction: column; gap: 14px; }
+.core { aspect-ratio: 1; width: 100%; height: auto !important; }
+@media (max-width: 900px) { .stage { grid-template-columns: 1fr; } .side { display: none; } .core { width: 70%; margin: 0 auto; } }

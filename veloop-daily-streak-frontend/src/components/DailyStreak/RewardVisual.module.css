@@ -1,0 +1,31 @@
+.v { position: relative; width: calc(var(--s) * 1.18); height: var(--s); flex-shrink: 0; }
+.halo { position: absolute; inset: -14%; border-radius: 50%; background: radial-gradient(circle, rgba(245, 196, 81, 0.3), rgba(245, 196, 81, 0) 62%); }
+.art { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 14px 18px rgba(0, 0, 0, 0.55)); }
+.float .art { animation: bob 7s ease-in-out infinite; }
+
+/* coin: slow conic rays behind the stack */
+.rays { position: absolute; inset: -22%; border-radius: 50%; background: repeating-conic-gradient(from 0deg, rgba(245, 196, 81, 0.16) 0deg 7deg, transparent 7deg 22deg); -webkit-mask: radial-gradient(circle, #000 18%, transparent 68%); mask: radial-gradient(circle, #000 18%, transparent 68%); animation: spin 90s linear infinite; }
+.coin .halo { background: radial-gradient(circle, rgba(245, 190, 60, 0.34), transparent 62%); }
+
+/* gift card: a perforated ticket the card sits on */
+.ticket { position: absolute; inset: 12% -4% 12% -4%; border-radius: 14px; background: linear-gradient(135deg, #1d1a12, #0e0d0a); border: 1px solid rgba(245, 196, 81, 0.35); -webkit-mask: radial-gradient(circle at 0 50%, transparent 9px, #000 10px) left / 51% 100% no-repeat, radial-gradient(circle at 100% 50%, transparent 9px, #000 10px) right / 51% 100% no-repeat; mask: radial-gradient(circle at 0 50%, transparent 9px, #000 10px) left / 51% 100% no-repeat, radial-gradient(circle at 100% 50%, transparent 9px, #000 10px) right / 51% 100% no-repeat; box-shadow: 0 18px 30px rgba(0, 0, 0, 0.5); }
+.ticket::after { content: ''; position: absolute; left: 12%; right: 12%; bottom: 10%; height: 0; border-top: 1px dashed rgba(245, 196, 81, 0.35); }
+.gift-card .art { inset: 2% 6% 14% 6%; width: 88%; height: 84%; transform: rotate(-7deg); animation: none; }
+.gift-card.float .art { animation: tilt 8s ease-in-out infinite; }
+.gift-card .halo { background: radial-gradient(circle, rgba(245, 196, 81, 0.18), transparent 62%); }
+
+/* gift box: tiny twinkles */
+.sp { position: absolute; width: 11px; height: 11px; background: #fff3d6; clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%); animation: twinkle 3.6s ease-in-out infinite; }
+.sp1 { left: 4%; top: 18%; } .sp2 { right: 2%; top: 8%; width: 9px; height: 9px; animation-delay: 1.2s; } .sp3 { right: 10%; bottom: 14%; width: 8px; height: 8px; animation-delay: 2.2s; }
+
+/* crown: elliptical orbit */
+.orbit { position: absolute; left: -12%; right: -12%; top: 56%; height: 30%; border-radius: 50%; border: 1px dashed rgba(245, 196, 81, 0.4); transform: rotate(-8deg); }
+
+.sealed .art { filter: grayscale(1) brightness(0.55) contrast(1.1) drop-shadow(0 10px 14px rgba(0, 0, 0, 0.5)); opacity: 0.6; animation: none; }
+.sealed .halo, .sealed .rays, .sealed .sp { opacity: 0.2; animation: none; }
+.sealed .ticket { opacity: 0.45; }
+
+@keyframes bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+@keyframes tilt { 0%, 100% { transform: rotate(-7deg) translateY(0); } 50% { transform: rotate(-4deg) translateY(-5px); } }
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes twinkle { 0%, 100% { opacity: 0.15; transform: scale(0.5); } 50% { opacity: 1; transform: scale(1) rotate(45deg); } }

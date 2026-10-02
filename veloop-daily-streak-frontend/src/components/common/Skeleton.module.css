@@ -1,0 +1,7 @@
+.block {
+  background:
+    linear-gradient(100deg, transparent 20%, rgba(167, 139, 250, 0.11) 50%, transparent 80%) 0 0 / 420px 100% no-repeat,
+    linear-gradient(180deg, rgba(34, 22, 66, 0.7), rgba(22, 14, 44, 0.7));
+  border: 1px solid var(--border);
+  animation: vl-shimmer 1.5s linear infinite;
+}

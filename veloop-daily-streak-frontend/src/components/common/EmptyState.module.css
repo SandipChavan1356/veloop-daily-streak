@@ -1,0 +1,4 @@
+.wrap { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 8px; padding: 34px 18px; }
+.icon { width: 56px; height: 56px; border-radius: 18px; display: grid; place-items: center; color: var(--violet-300); background: rgba(139, 92, 246, 0.12); border: 1px solid var(--border); margin-bottom: 4px; }
+.title { font-family: var(--font-display); font-weight: 600; }
+.text { color: var(--text-muted); font-size: 0.9rem; max-width: 340px; margin-bottom: 8px; }

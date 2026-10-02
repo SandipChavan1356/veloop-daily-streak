@@ -1,0 +1,14 @@
+.podium { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: end; gap: 14px; max-width: 640px; margin: 0 auto; width: 100%; }
+.pod { position: relative; display: flex; flex-direction: column; align-items: center; gap: 6px; padding-top: 18px; }
+.crown { color: var(--gold-300); filter: drop-shadow(0 0 10px var(--gold-glow)); margin-bottom: -2px; }
+.pName { font-weight: 700; font-size: 0.9rem; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pStreak { display: inline-flex; align-items: center; gap: 5px; color: var(--gold-300); font-family: var(--font-display); font-weight: 800; }
+.block { width: 100%; display: grid; place-items: center; font-family: var(--font-display); font-weight: 800; font-size: 1.4rem; border-radius: 16px 16px 6px 6px; border: 1px solid var(--border-strong); background: linear-gradient(180deg, rgba(139, 92, 246, 0.3), rgba(21, 13, 42, 0.8)); }
+.r1 .block { height: 110px; background: linear-gradient(180deg, rgba(245, 196, 81, 0.4), rgba(21, 13, 42, 0.8)); color: var(--gold-300); border-color: rgba(245, 196, 81, 0.5); }
+.r2 .block { height: 80px; }
+.r3 .block { height: 60px; }
+.you .pName { color: var(--gold-300); }
+.rank { width: 26px; text-align: center; font-family: var(--font-display); font-weight: 800; color: var(--text-muted); }
+.meRow { background: rgba(245, 196, 81, 0.06); margin: 0 -10px; padding-left: 10px; padding-right: 10px; border-radius: 14px; }
+.myRank { margin-top: 12px; padding: 12px 14px; border-radius: 14px; text-align: center; background: rgba(139, 92, 246, 0.12); border: 1px solid var(--border-strong); color: var(--text-secondary); font-size: 0.88rem; }
+.myRank b { color: var(--gold-300); }

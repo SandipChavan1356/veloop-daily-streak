@@ -1,0 +1,19 @@
+.overlay { position: fixed; inset: 0; z-index: 150; display: grid; place-items: center; padding: 20px; background: rgba(4, 2, 12, 0.78); backdrop-filter: blur(6px); animation: fade 220ms ease-out; }
+.card { width: min(380px, 100%); padding: 28px 24px 22px; text-align: center; display: flex; flex-direction: column; align-items: center; border-radius: var(--radius-xl); background: linear-gradient(180deg, #24164a, #150d2c); border: 1px solid var(--border-strong); box-shadow: 0 30px 70px rgba(0, 0, 0, 0.6), var(--highlight); animation: pop 420ms var(--ease-spring); }
+.title { margin-top: 16px; font-family: var(--font-display); font-weight: 700; font-size: 1.2rem; }
+.sub { color: var(--text-muted); font-size: 0.86rem; margin: 3px 0 16px; }
+.adSlot { width: 100%; display: flex; gap: 12px; align-items: center; text-align: left; padding: 14px; border-radius: 14px; color: var(--violet-300); border: 1px dashed var(--border-strong); background: linear-gradient(100deg, transparent 20%, rgba(167, 139, 250, 0.1) 50%, transparent 80%) 0 0 / 420px 100% no-repeat, rgba(10, 6, 24, 0.45); animation: vl-shimmer 2s linear infinite; }
+.adSlot b { display: block; color: var(--text-primary); font-size: 0.86rem; }
+.adSlot span { display: block; color: var(--text-muted); font-size: 0.74rem; line-height: 1.35; }
+.steps { list-style: none; margin: 16px 0 6px; padding: 0; width: 100%; display: flex; flex-direction: column; gap: 9px; text-align: left; }
+.steps li { display: flex; align-items: center; gap: 10px; font-size: 0.86rem; color: var(--text-muted); transition: color var(--dur-med); }
+.ico { width: 20px; height: 20px; border-radius: 50%; display: grid; place-items: center; border: 1px solid var(--border-strong); flex-shrink: 0; }
+.done { color: var(--text-secondary) !important; }
+.done .ico { background: var(--green-500); border-color: transparent; color: #052e14; }
+.now { color: var(--text-primary) !important; }
+.now .ico { color: var(--gold-300); border-color: var(--gold-400); }
+.spin { animation: spin 0.9s linear infinite; }
+.badge { margin-top: 10px; padding: 5px 14px; border-radius: var(--radius-pill); font-size: 0.78rem; font-weight: 600; color: var(--gold-300); background: rgba(245, 196, 81, 0.1); border: 1px solid rgba(245, 196, 81, 0.28); }
+@keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes pop { from { opacity: 0; transform: translateY(14px) scale(0.94); } to { opacity: 1; transform: none; } }
+@keyframes spin { to { transform: rotate(360deg); } }
