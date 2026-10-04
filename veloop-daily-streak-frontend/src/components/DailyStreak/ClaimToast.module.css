@@ -1,0 +1,17 @@
+.toast { position: fixed; z-index: 150; left: 50%; bottom: calc(28px + env(safe-area-inset-bottom)); display: flex; align-items: center; gap: 14px; width: max-content; max-width: calc(100vw - 24px); padding: 12px 12px 12px 14px; overflow: hidden; border-radius: 18px; background: rgba(14, 14, 20, 0.94); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.12); box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(52, 211, 153, 0.12); transform: translateX(-50%); animation: in 520ms 380ms var(--ease-out) both; }
+.out { animation: out 240ms ease-in both; }
+.icon { display: grid; place-items: center; flex-shrink: 0; width: 34px; height: 34px; border-radius: 50%; color: #032312; background: linear-gradient(135deg, #5be39c, #1fb86a); box-shadow: 0 0 18px rgba(52, 211, 153, 0.4); }
+.icon path { stroke-dasharray: 1; stroke-dashoffset: 1; animation: tick 440ms 700ms var(--ease-out) forwards; }
+.text { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+.text b { font-family: var(--font-display); font-size: 0.98rem; letter-spacing: -0.01em; }
+.text span { font-size: 0.86rem; color: var(--gold-300); }
+.text i { font-style: normal; color: var(--text-muted); }
+.details { padding: 8px 12px; border: 1px solid var(--border-strong); border-radius: 10px; background: rgba(255, 255, 255, 0.05); color: var(--text-primary); font-size: 0.82rem; font-weight: 600; cursor: pointer; transition: background 160ms; }
+@media (hover: hover) { .details:hover { background: rgba(255, 255, 255, 0.1); } }
+.x { display: grid; place-items: center; width: 30px; height: 30px; border: none; border-radius: 8px; background: none; color: var(--text-muted); cursor: pointer; }
+.life { position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: linear-gradient(90deg, #34d399, var(--gold-300)); transform-origin: left; animation: life linear both; opacity: 0.7; }
+@media (max-width: 1023px) { .toast { bottom: calc(96px + env(safe-area-inset-bottom)); } }
+@keyframes in { from { opacity: 0; transform: translateX(-50%) translateY(18px) scale(0.97); } to { opacity: 1; transform: translateX(-50%); } }
+@keyframes out { to { opacity: 0; transform: translateX(-50%) translateY(10px); } }
+@keyframes tick { to { stroke-dashoffset: 0; } }
+@keyframes life { from { transform: scaleX(1); } to { transform: scaleX(0); } }

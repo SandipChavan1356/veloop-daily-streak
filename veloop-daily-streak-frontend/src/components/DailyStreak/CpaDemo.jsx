@@ -8,7 +8,7 @@ const STEPS = ['Securing your session', 'Verifying eligibility', 'Preparing wall
 // Placeholder for the real CPA/ad network (doc sections 7, 68). Purely visual —
 // it grants nothing. The backend session from /claim/initiate is what gates the
 // real /claim call once the minimum wait passes. The VELoop team swaps this out later.
-export default function CpaDemo({ minWaitSeconds = 3 }) {
+export default function CpaDemo({ minWaitSeconds = 3, closing = false }) {
   const [elapsed, setElapsed] = useState(0);
 
   useEffect(() => {
@@ -21,7 +21,7 @@ export default function CpaDemo({ minWaitSeconds = 3 }) {
   const active = Math.min(STEPS.length - 1, Math.floor(frac * STEPS.length));
 
   return (
-    <div className={styles.overlay} role="dialog" aria-modal="true" aria-label="Reward verification">
+    <div className={`${styles.overlay} ${closing ? styles.closing : ''}`} role="dialog" aria-modal="true" aria-label="Reward verification">
       <div className={styles.card}>
         <ProgressRing value={frac} size={104} stroke={7}>
           <ShieldCheck size={30} color="#ffd977" />

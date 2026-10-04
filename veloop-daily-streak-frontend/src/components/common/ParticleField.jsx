@@ -1,10 +1,10 @@
 import { useEffect, useRef } from 'react';
 import styles from './ParticleField.module.css';
 
-// Ambient background: slow-drifting gold / violet dust. Cheap on purpose —
+// Ambient background: slow-drifting gold / white dust (a hint of violet). Cheap on purpose —
 // ~40 particles, DPR capped at 2, pauses when the tab is hidden, and renders a
 // single static frame for users who prefer reduced motion.
-export default function ParticleField({ density = 1 }) {
+export default function ParticleField({ density = 1, fps = 60 }) {
   const ref = useRef(null);
 
   useEffect(() => {
@@ -17,7 +17,7 @@ export default function ParticleField({ density = 1 }) {
     let raf = 0;
     let particles = [];
 
-    const palette = ['245,196,81', '167,139,250', '196,176,255', '255,233,168'];
+    const palette = ['245,196,81', '245,196,81', '255,233,168', '255,255,255', '255,255,255', '170,150,240'];
 
     const make = () => {
       const count = Math.round(Math.min(46, (w * h) / 42000) * density);
@@ -64,9 +64,13 @@ export default function ParticleField({ density = 1 }) {
       }
     };
 
-    const loop = () => {
-      draw();
+    const gap = 1000 / fps - 2;
+    let last = 0;
+    const loop = (now) => {
       raf = requestAnimationFrame(loop);
+      if (now - last < gap) return; // throttle on low-power devices
+      last = now;
+      draw();
     };
     const onVis = () => {
       cancelAnimationFrame(raf);
@@ -83,7 +87,7 @@ export default function ParticleField({ density = 1 }) {
       window.removeEventListener('resize', resize);
       document.removeEventListener('visibilitychange', onVis);
     };
-  }, [density]);
+  }, [density, fps]);
 
   return <canvas ref={ref} className={styles.canvas} aria-hidden="true" />;
 }

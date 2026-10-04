@@ -1,0 +1,52 @@
+.btn { position: relative; isolation: isolate; display: inline-grid; place-items: center; border: none; border-radius: 16px; padding: 0 28px; cursor: pointer; font-family: var(--font-display); font-weight: 700; color: var(--text-on-gold); -webkit-tap-highlight-color: transparent; transition: transform 220ms var(--ease-out), box-shadow 500ms var(--ease-out), color 300ms; box-shadow: 0 10px 26px rgba(245, 170, 40, 0.26); }
+.lg { min-height: 56px; font-size: 1.06rem; }
+.md { min-height: 48px; font-size: 1rem; padding: 0 24px; border-radius: 14px; }
+.sm { min-height: 42px; font-size: 0.92rem; padding: 0 18px; border-radius: 12px; }
+
+/* three background skins crossfade (opacity only) */
+.bg { position: absolute; inset: 0; z-index: -1; border-radius: inherit; transition: opacity 420ms var(--ease-out); }
+.gold { background: var(--gold-grad); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5); opacity: 1; }
+.green { background: linear-gradient(135deg, #5be39c, #1fb86a); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4); opacity: 0; }
+.red { background: rgba(239, 68, 68, 0.16); box-shadow: inset 0 0 0 1px rgba(248, 113, 113, 0.6); opacity: 0; }
+
+/* every label occupies the same grid cell → the button keeps its width */
+.layer { grid-area: 1 / 1; display: inline-flex; align-items: center; gap: 9px; white-space: nowrap; opacity: 0; transform: translateY(8px); transition: opacity 260ms var(--ease-out), transform 320ms var(--ease-out); pointer-events: none; }
+.lIdle { opacity: 1; transform: none; }
+
+/* idle: a soft ring breathes outward (transform + opacity — no box-shadow animation) */
+.idle::after { content: ''; position: absolute; inset: 0; z-index: -2; border-radius: inherit; border: 2px solid rgba(245, 196, 81, 0.55); animation: ringOut 3.2s ease-out infinite; pointer-events: none; }
+@media (hover: hover) and (pointer: fine) {
+  .idle:hover, .error:hover { transform: translateY(-2px); box-shadow: 0 14px 30px rgba(245, 170, 40, 0.34); }
+  .idle:hover .bg.gold { filter: brightness(1.07); }
+}
+.btn:active:not(:disabled) { transform: scale(0.97); transition-duration: 90ms; }
+.btn:disabled { cursor: default; }
+.btn:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+
+/* loading */
+.loading .lIdle { opacity: 0; transform: translateY(-8px); }
+.loading .lLoad { opacity: 1; transform: none; }
+.loading .gold { filter: saturate(0.8) brightness(0.92); }
+.spinner { width: 17px; height: 17px; border-radius: 50%; border: 2.5px solid rgba(27, 16, 0, 0.25); border-top-color: var(--text-on-gold); animation: spin 0.75s linear infinite; }
+
+/* success: confirmed by the backend */
+.success { color: #032312; box-shadow: 0 10px 30px rgba(34, 197, 94, 0.32); animation: settle 620ms var(--ease-out); }
+.success .gold { opacity: 0; }
+.success .green { opacity: 1; }
+.success .lIdle, .success .lLoad { opacity: 0; transform: translateY(-8px); }
+.success .lOk { opacity: 1; transform: none; transition-delay: 120ms; }
+.check path { stroke-dasharray: 1; stroke-dashoffset: 1; }
+.success .check path { animation: tick 460ms 160ms var(--ease-out) forwards; }
+
+/* error: the reward stays claimable */
+.error { color: #fecaca; box-shadow: none; animation: shake 420ms var(--ease-out); }
+.error .gold { opacity: 0; }
+.error .red { opacity: 1; }
+.error .lIdle { opacity: 0; transform: translateY(-8px); }
+.error .lErr { opacity: 1; transform: none; }
+
+@keyframes ringOut { 0% { transform: scale(1); opacity: 0.65; } 65%, 100% { transform: scale(1.12, 1.32); opacity: 0; } }
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes tick { to { stroke-dashoffset: 0; } }
+@keyframes settle { 0% { transform: scale(0.96); } 45% { transform: scale(1.035); } 100% { transform: scale(1); } }
+@keyframes shake { 0%, 100% { transform: translateX(0); } 20% { transform: translateX(-5px); } 40% { transform: translateX(4px); } 60% { transform: translateX(-3px); } 80% { transform: translateX(2px); } }

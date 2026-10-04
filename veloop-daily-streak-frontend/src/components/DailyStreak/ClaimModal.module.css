@@ -1,25 +1,25 @@
-.overlay { position: fixed; inset: 0; z-index: 200; display: grid; place-items: center; padding: 20px; background: rgba(4, 2, 12, 0.72); backdrop-filter: blur(6px); animation: fade 240ms ease-out; }
+.overlay { position: fixed; inset: 0; z-index: 200; display: grid; place-items: center; padding: 20px; background: rgba(3, 3, 6, 0.74); backdrop-filter: blur(6px); animation: fade 240ms ease-out; }
 .card {
   position: relative; overflow: hidden; width: min(400px, 100%); padding: 30px 26px 22px; text-align: center; border-radius: var(--radius-xl);
-  background: linear-gradient(180deg, #2a1a58 0%, #150d2c 100%); border: 1px solid rgba(245, 196, 81, 0.4);
-  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.65), 0 0 60px rgba(139, 92, 246, 0.3), var(--highlight);
+  background: linear-gradient(180deg, #19171f 0%, #0d0c12 100%); border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.7), 0 0 50px rgba(245, 170, 40, 0.1), var(--highlight);
   animation: pop 520ms var(--ease-spring);
 }
-.halo { position: absolute; left: 50%; top: -60px; width: 340px; height: 340px; transform: translateX(-50%); background: radial-gradient(circle, rgba(245, 196, 81, 0.32), transparent 65%); pointer-events: none; }
+.halo { position: absolute; left: 50%; top: -60px; width: 340px; height: 340px; transform: translateX(-50%); background: radial-gradient(circle, rgba(245, 196, 81, 0.22), transparent 65%); pointer-events: none; }
 .check { position: absolute; top: 16px; right: 16px; width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; color: #052e14; background: linear-gradient(145deg, #6ee7a0, var(--green-500)); box-shadow: 0 0 18px var(--green-glow); }
 .art { position: relative; display: grid; place-items: center; height: 110px; animation: reveal 700ms var(--ease-spring) 120ms both; }
-.eyebrow { position: relative; margin-top: 6px; color: var(--violet-300); font-family: var(--font-display); font-weight: 700; letter-spacing: 0.04em; }
+.eyebrow { position: relative; margin-top: 6px; color: #5be39c; font-family: var(--font-display); font-weight: 700; letter-spacing: 0.04em; }
 .amount { position: relative; font-family: var(--font-display); font-weight: 800; font-size: 3.1rem; line-height: 1.1; margin: 6px 0 4px; background: linear-gradient(135deg, #fff0b8, #f5c451 55%, #e39b22); -webkit-background-clip: text; background-clip: text; color: transparent; }
 .unit { font-size: 1rem; margin-left: 8px; color: var(--gold-300); -webkit-text-fill-color: var(--gold-300); font-weight: 700; }
 .note { position: relative; color: var(--text-secondary); font-size: 0.86rem; max-width: 300px; margin: 0 auto 14px; }
-.wallet { position: relative; display: inline-flex; align-items: center; gap: 8px; padding: 9px 16px; border-radius: var(--radius-pill); background: rgba(10, 6, 24, 0.55); border: 1px solid var(--border-strong); font-size: 0.9rem; }
+.wallet { position: relative; display: inline-flex; align-items: center; gap: 8px; padding: 9px 16px; border-radius: var(--radius-pill); background: rgba(255, 255, 255, 0.04); border: 1px solid var(--border-strong); font-size: 0.9rem; }
 .wallet b { color: var(--green-400); font-family: var(--font-display); }
 .arrow { color: var(--text-muted); }
 .walletLabel { color: var(--text-muted); font-size: 0.74rem; }
 .next { position: relative; display: flex; align-items: center; justify-content: center; gap: 6px; margin: 14px 0 18px; color: var(--text-secondary); font-size: 0.84rem; min-height: 20px; }
 .next b { color: var(--gold-300); font-family: var(--font-display); }
 .actions { position: relative; display: flex; flex-direction: column; gap: 10px; align-items: center; }
-.link { color: var(--violet-300); font-size: 0.86rem; font-weight: 600; text-decoration: none; }
+.link { color: var(--text-secondary); font-size: 0.86rem; font-weight: 600; text-decoration: none; }
 .link:hover { color: var(--text-primary); }
 .txn { margin-top: 12px; color: var(--text-muted); font-size: 0.7rem; letter-spacing: 0.04em; }
 @keyframes fade { from { opacity: 0; } to { opacity: 1; } }

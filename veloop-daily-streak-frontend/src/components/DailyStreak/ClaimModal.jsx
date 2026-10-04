@@ -2,7 +2,6 @@ import { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Check, Lock, Wallet } from 'lucide-react';
 import { assetForType } from '../icons/RewardArt';
-import Confetti from '../common/Confetti';
 import Button from '../common/Button';
 import { useCountUp } from '../../hooks/useCountUp';
 import { useServerCountdown } from '../../hooks/useServerCountdown';
@@ -34,7 +33,6 @@ export default function ClaimModal({ result, onClose }) {
   return (
     <div className={styles.overlay} role="dialog" aria-modal="true" aria-label={`Day ${day} reward claimed`} onMouseDown={(e) => e.target === e.currentTarget && onClose()}>
       <div className={styles.card}>
-        <Confetti burstKey={day} />
         <div className={styles.halo} />
         <div className={styles.check}><Check size={18} strokeWidth={3.4} /></div>
         <div className={styles.art}>{assetForType(assetType, { size: 96 })}</div>

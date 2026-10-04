@@ -1,15 +1,14 @@
-.bar { position: sticky; top: 0; z-index: 50; height: var(--topbar-h); display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 0 32px; background: linear-gradient(180deg, rgba(6, 6, 8, 0.85), rgba(6, 6, 8, 0)); }
+.bar { position: sticky; top: 0; z-index: 50; height: var(--topbar-h); background: linear-gradient(180deg, rgba(7, 7, 6, 0.9), rgba(7, 7, 6, 0)); }
+.inner { max-width: 1280px; height: 100%; margin: 0 auto; padding: 0 32px; display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 16px; }
 .left, .right { display: flex; align-items: center; gap: 10px; min-width: 0; }
-.crumb { display: flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 0.78rem; color: var(--text-muted); }
-.crumb i { font-style: normal; opacity: 0.5; }
-.crumb b { font-weight: 500; color: var(--text-primary); }
-.menuBtn, .mobileLogo { display: none; }
-.menuBtn { width: 42px; height: 42px; border-radius: 13px; place-items: center; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border-strong); color: var(--text-primary); cursor: pointer; }
+.right { justify-content: flex-end; }
+.center { display: flex; justify-content: center; }
+.menuBtn { display: none; width: 42px; height: 42px; border-radius: 13px; place-items: center; background: rgba(255, 244, 220, 0.05); border: 1px solid var(--border-strong); color: var(--text-primary); cursor: pointer; }
 .menuBtn:active { transform: scale(0.94); }
 @media (max-width: 1023px) {
+  .inner { grid-template-columns: 1fr auto; padding: env(safe-area-inset-top) 14px 0; }
+  .center { display: none; }
   .menuBtn { display: grid; }
-  .mobileLogo { display: block; }
-  .crumb { display: none; }
-  .bar { padding: env(safe-area-inset-top) 14px 0; height: calc(var(--topbar-h) + env(safe-area-inset-top)); background: linear-gradient(180deg, rgba(6, 6, 8, 0.92), rgba(6, 6, 8, 0.4)); backdrop-filter: blur(10px); }
+  .bar { height: calc(var(--topbar-h) - 8px + env(safe-area-inset-top)); background: linear-gradient(180deg, rgba(7, 7, 6, 0.94), rgba(7, 7, 6, 0.5)); backdrop-filter: blur(10px); }
 }
-@media (max-width: 480px) { .right { gap: 6px; } }
+@media (max-width: 600px) { .left > :global(a) span:not(:first-child), .left :global(a) > div:last-child { display: none; } .right { gap: 6px; } }

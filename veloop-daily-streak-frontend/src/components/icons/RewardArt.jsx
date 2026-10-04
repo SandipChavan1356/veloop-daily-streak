@@ -1,5 +1,6 @@
 import { useId, useState } from 'react';
 import { ASSETS } from '../../assets/veloop';
+import Asset from '../common/Asset';
 import styles from './RewardArt.module.css';
 
 // Reward artwork. The official VELoop assets (src/assets/veloop.js) are used
@@ -19,16 +20,12 @@ export function AssetOrArt({ name, size = 64, fallback, className = '', float = 
   const a = ASSETS[name];
   if (!a || failed) return fallback;
   return (
-    <img
-      src={a.src}
-      alt=""
-      aria-hidden="true"
-      width={size}
-      height={size}
+    <Asset
+      name={name}
+      maxPx={size}
+      decorative
       className={`${float ? styles.asset : ''} ${className}`}
       style={{ width: size, height: size, objectFit: 'contain' }}
-      draggable="false"
-      decoding="async"
       onError={() => setFailed(true)}
     />
   );

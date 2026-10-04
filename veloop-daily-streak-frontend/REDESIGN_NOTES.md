@@ -1,18 +1,26 @@
-# VELoop Daily Streak — "The Trail" redesign (v2)
+# VELoop Daily Streak — v4 "The Streak Pass" (fresh concept)
 
-Setup: `npm install` (new deps: @fontsource-variable/{bricolage-grotesque,figtree,jetbrains-mono}) then `npm run dev`.
+Setup: `npm install` then `npm run dev`. New deps: @fontsource-variable/fraunces (serif numerals/headlines).
 
-## Untouched (backend / auth / logic)
-src/services/*, AuthContext, StreakDataContext, ProtectedLayout, hooks, claim flow (initiate -> claim), timers, CPA gate.
-DailyStreakPage keeps its phase/claim/timer logic verbatim; only imports + render tree changed.
+## Not touched
+Services, auth, StreakDataContext, claim flow (initiate -> verification wait -> claimReward -> reload), reward/streak logic.
+Celebration still starts ONLY when claimReward resolves and is not alreadyClaimed; failures keep the reward claimable ("Try again").
 
-## New composition
-- Stage (no cards): identity column · StreakCore (7-segment energy ring + flame + live number) · TodayDrop (free-floating reward + claim / countdown)
-- StreakJourney: 7 nodes on an S-curve trail (horizontal >=720px container, zig-zag vertical on phones). Hover/focus/tap a node -> inspector.
-- RewardVault: flat ledger (Secured / Next unlock / Sealed), deliberately unequal weights
-- UltimateReward ("Final vault"): Day-7 object on an orbit system with the exclusive gift circling it
-- RewardVisual: per-type staging (coin rays / perforated gift-card ticket / sparkling gift box / orbiting crown)
-- Shell: slim icon rail that expands on hover (drawer + floating dock on mobile)
-- Login/Register: editorial split (living ring-core world + flat underline-field panel); full-screen world + bottom sheet on mobile
-- Palette: near-black neutral; violet = atmosphere, gold = rewards, cyan = progress/energy. Mono face for data labels.
-- Mobile_Hero.png intentionally unused: it bakes in the old "Login Daily & Earn Bigger Rewards" copy.
+## What is new (nothing carried over visually from v1-v3)
+- Concept: obsidian + gold. No violet. Banknote guilloche background, light-beam sweep, gold dust.
+- Shell: floating pill nav at the top (active item opens to show its label); drawer + bottom dock on mobile.
+- Hero: 3D black-metal Pass (pointer tilt, holographic sheen, flip to ledger) with 7 engraved stamp slots + perforated Coupon.
+- Reward Index: typographic list, cursor-follow reward preview (desktop), in-place expand (touch/keyboard).
+- Final vault: giant outlined "07", tilting crown, light sweep, notch progress.
+- Login/Register: the Pass floats in an obsidian room; flat underline-field sign-in column; bottom sheet on mobile.
+- Motion language: odometer digits, stamp slam, stub tear + CLAIMED stamp, impact shake, holo drift.
+
+## Claim sequence (backend-confirmed)
+Claim reward -> Claiming... -> green "Reward claimed" -> seal slams into the pass slot (ripple + dust, card impact) ->
+CLAIMED stamp on the coupon, stub tears off along the perforation -> toast (+N VES from API response) -> fade to next coupon + rolling countdown.
+
+## Perf / assets
+Same optimised AVIF/WebP width ladder + <Asset> as v3. Decorative loops pause offscreen; device-tiered background; transform/opacity only.
+
+## Verified
+Similarity v3 vs v4 (layout 0.14 / edges 0.13; v3 vs itself = 1.00). No horizontal overflow at 375-1920px.

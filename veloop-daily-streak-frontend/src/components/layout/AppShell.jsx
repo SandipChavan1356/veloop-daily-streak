@@ -38,15 +38,13 @@ export default function AppShell() {
       <AnimatedBackground />
       <a href="#main" className={styles.skip}>Skip to content</a>
       <Sidebar open={menuOpen} onClose={() => setMenuOpen(false)} />
-      <div className={styles.column}>
-        <Topbar onMenu={() => setMenuOpen(true)} />
-        <main className={styles.main} id="main">
-          <div key={pathname} className="vl-fade">
-            <Outlet />
-          </div>
-          <AppFooter />
-        </main>
-      </div>
+      <Topbar onMenu={() => setMenuOpen(true)} />
+      <main className={styles.main} id="main">
+        <div key={pathname} className="vl-fade">
+          <Outlet />
+        </div>
+        <AppFooter />
+      </main>
       <BottomNav />
       <DevTools />
     </div>

@@ -1,7 +1,7 @@
 .wrap { position: relative; }
 .bell {
   position: relative; width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center;
-  background: rgba(35, 23, 68, 0.7); border: 1px solid var(--border-strong); color: var(--text-secondary); cursor: pointer;
+  background: rgba(255, 255, 255, 0.04); border: 1px solid var(--border-strong); color: var(--text-secondary); cursor: pointer;
   transition: background var(--dur-fast), color var(--dur-fast);
 }
 .bell:hover { background: var(--surface-hover); color: var(--text-primary); }
@@ -15,7 +15,7 @@
 .head { padding: 8px 10px 6px; font-family: var(--font-display); font-weight: 700; font-size: 0.85rem; color: var(--text-secondary); }
 .empty { padding: 18px 10px; text-align: center; color: var(--text-muted); font-size: 0.88rem; }
 .item { display: flex; gap: 12px; padding: 10px; border-radius: 12px; text-decoration: none; transition: background var(--dur-fast); }
-.item:hover { background: rgba(139, 92, 246, 0.14); }
+.item:hover { background: rgba(255, 255, 255, 0.06); }
 .icon { flex-shrink: 0; width: 34px; height: 34px; border-radius: 11px; display: grid; place-items: center; }
 .gold { background: rgba(245, 196, 81, 0.16); color: var(--gold-300); }
 .red { background: rgba(239, 68, 68, 0.14); color: #fca5a5; }

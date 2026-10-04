@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import * as streakApi from '../../services/streakApi';
 import { useToast } from '../../context/ToastContext';
 import { useStreakData } from '../../context/StreakDataContext';
@@ -6,13 +6,14 @@ import { useStreakData } from '../../context/StreakDataContext';
 import StreakLoader from '../../components/DailyStreak/StreakLoader';
 import StreakSkeleton from '../../components/DailyStreak/StreakSkeleton';
 import StreakStage from '../../components/DailyStreak/StreakStage';
-import StreakJourney from '../../components/DailyStreak/StreakJourney';
-import RewardVault from '../../components/DailyStreak/RewardVault';
+import RewardIndex from '../../components/DailyStreak/RewardIndex';
 import UltimateReward from '../../components/DailyStreak/UltimateReward';
 import StreakAtRisk from '../../components/DailyStreak/StreakAtRisk';
 import ResetBanner from '../../components/DailyStreak/ResetBanner';
 import CpaDemo from '../../components/DailyStreak/CpaDemo';
 import ClaimModal from '../../components/DailyStreak/ClaimModal';
+import ClaimToast from '../../components/DailyStreak/ClaimToast';
+import Reveal from '../../components/common/Reveal';
 import ErrorState from '../../components/common/ErrorState';
 
 import styles from './DailyStreak.module.css';
@@ -37,6 +38,10 @@ const friendlyError = (err) => ERROR_COPY[err?.code] || err?.message || 'Unable 
 // Loader (branded) -> skeleton -> page (doc sections 69, 70, 90).
 const LOADER_MS = 700;
 const SKELETON_MS = 350;
+// How long the in-place celebration holds before the UI settles into the new backend state.
+const CELEBRATE_MS = 1500;
+const CELEBRATE_VIP_MS = 2100;
+const FAIL_HOLD_MS = 6000;
 
 export default function DailyStreakPage() {
   const toast = useToast();
@@ -45,8 +50,20 @@ export default function DailyStreakPage() {
   const [claimingDay, setClaimingDay] = useState(null);
   const [cpaVisible, setCpaVisible] = useState(false);
   const [cpaWait, setCpaWait] = useState(3);
-  const [justClaimedDay, setJustClaimedDay] = useState(null);
   const [claimResult, setClaimResult] = useState(null);
+  const [detailsOpen, setDetailsOpen] = useState(false);
+  const [cpaClosing, setCpaClosing] = useState(false);
+  // Claim feedback. `celebration` is set ONLY from a successful claim response.
+  const [celebration, setCelebration] = useState(null); // { key, day, card, reward }
+  const [claimToast, setClaimToast] = useState(null); // { key, day, reward }
+  const [failDay, setFailDay] = useState(null);
+  const timers = useRef([]);
+  const later = (fn, ms) => {
+    const t = setTimeout(fn, ms);
+    timers.current.push(t);
+    return t;
+  };
+  useEffect(() => () => timers.current.forEach(clearTimeout), []);
 
   useEffect(() => {
     if (phase !== 'loader') return undefined;
@@ -80,6 +97,7 @@ export default function DailyStreakPage() {
     const currency = card?.reward?.currency;
     const before = wallet?.balances?.[currency] ?? 0;
     setClaimingDay(day);
+    setFailDay(null);
     try {
       const initiated = await streakApi.initiateClaim(day);
       setCpaWait(initiated.minWaitSeconds || 3);
@@ -89,7 +107,26 @@ export default function DailyStreakPage() {
       await new Promise((resolve) => setTimeout(resolve, (initiated.minWaitSeconds || 3) * 1000 + 200));
 
       const result = await streakApi.claimReward(day, initiated.sessionToken);
-      setCpaVisible(false);
+
+      // The backend has now CONFIRMED the claim. Only from here may anything celebrate.
+      if (!result.alreadyClaimed) {
+        const key = Date.now();
+        const vip = card?.reward?.assetType === 'crown';
+        setCelebration({ key, day, card, reward: result.reward });
+        setClaimToast({ key, day, reward: result.reward });
+        const hold = vip ? CELEBRATE_VIP_MS : CELEBRATE_MS;
+        // fade the celebration out first, THEN swap to the new state (no blank beat)
+        later(() => setCelebration((c) => (c && c.key === key ? { ...c, leaving: true } : c)), hold - 300);
+        later(() => setCelebration((c) => (c && c.key === key ? null : c)), hold);
+        // verification overlay fades out over the celebration instead of vanishing
+        setCpaClosing(true);
+        later(() => {
+          setCpaVisible(false);
+          setCpaClosing(false);
+        }, 260);
+      } else {
+        setCpaVisible(false);
+      }
 
       // Doc section 93: re-fetch everything from the backend; no optimistic updates.
       const fresh = await reload({ silent: true }).catch(() => null);
@@ -97,8 +134,6 @@ export default function DailyStreakPage() {
       if (result.alreadyClaimed) {
         toast.info(friendlyError({ code: 'ALREADY_CLAIMED' }));
       } else {
-        setJustClaimedDay(day);
-        setTimeout(() => setJustClaimedDay(null), 800);
         setClaimResult({
           day,
           reward: result.reward,
@@ -111,7 +146,11 @@ export default function DailyStreakPage() {
         });
       }
     } catch (err) {
+      // Failure: no celebration, the reward stays unclaimed, the button flips to "Try again".
       setCpaVisible(false);
+      setCpaClosing(false);
+      setFailDay(day);
+      later(() => setFailDay((d) => (d === day ? null : d)), FAIL_HOLD_MS);
       toast.error(friendlyError(err));
       reload({ silent: true }).catch(() => {});
     } finally {
@@ -140,10 +179,11 @@ export default function DailyStreakPage() {
         rewards={rewards}
         serverTime={serverTime}
         onClaim={handleClaim}
-        claiming={claimingDay != null}
+        claimingDay={claimingDay}
+        celebration={celebration}
+        failDay={failDay}
         completed={completed}
         onTimerComplete={handleTimerComplete}
-        burstKey={justClaimedDay}
         notices={
           <>
             <ResetBanner streak={streak} />
@@ -152,14 +192,34 @@ export default function DailyStreakPage() {
         }
       />
 
-      <StreakJourney rewards={rewards} checkedIn={checkedIn} total={streak.totalRewards} onClaim={handleClaim} claimingDay={claimingDay} />
+      <Reveal i={3}>
+        <RewardIndex
+          rewards={rewards}
+          checkedIn={checkedIn}
+          total={streak.totalRewards}
+          onClaim={handleClaim}
+          claimingDay={claimingDay}
+          celebrationDay={celebration?.day ?? null}
+          failDay={failDay}
+        />
+      </Reveal>
 
-      <RewardVault rewards={rewards} streak={streak} />
+      <Reveal i={4}>
+        <UltimateReward reward={ultimate?.reward} unlockDay={ultimate?.day} isClaimed={ultimate?.status === 'CLAIMED'} checkedIn={checkedIn} />
+      </Reveal>
 
-      <UltimateReward reward={ultimate?.reward} unlockDay={ultimate?.day} isClaimed={ultimate?.status === 'CLAIMED'} checkedIn={checkedIn} />
+      {cpaVisible && <CpaDemo minWaitSeconds={cpaWait} closing={cpaClosing} />}
 
-      {cpaVisible && <CpaDemo minWaitSeconds={cpaWait} />}
-      {claimResult && <ClaimModal result={claimResult} onClose={() => setClaimResult(null)} />}
+      {claimToast && (
+        <ClaimToast
+          key={claimToast.key}
+          reward={claimToast.reward}
+          day={claimToast.day}
+          onDetails={claimResult ? () => setDetailsOpen(true) : null}
+          onClose={() => setClaimToast(null)}
+        />
+      )}
+      {claimResult && detailsOpen && <ClaimModal result={claimResult} onClose={() => { setDetailsOpen(false); setClaimResult(null); }} />}
     </div>
   );
 }

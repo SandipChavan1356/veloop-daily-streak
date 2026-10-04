@@ -1,0 +1,12 @@
+.root { width: 100%; }
+.row { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 22px; }
+.flip { display: inline-flex; align-items: center; gap: 8px; height: 40px; padding: 0 16px; border-radius: 999px; background: rgba(255, 244, 220, 0.05); border: 1px solid var(--border-strong); color: var(--text-primary); font-family: var(--font-mono); font-size: 0.78rem; cursor: pointer; transition: background 200ms, transform 120ms; }
+@media (hover: hover) { .flip:hover { background: rgba(255, 244, 220, 0.1); } }
+.flip:active { transform: scale(0.96); }
+.hint { font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted); }
+@media (hover: none) { .hint { display: none; } }
+.ledger { display: grid; grid-template-columns: 1.2fr 1fr 0.7fr; gap: 3cqw; margin: 0; height: 100%; align-content: center; }
+.ledger > div { display: flex; flex-direction: column; gap: 0.8cqw; min-width: 0; }
+.ledger dt { font-family: var(--font-mono); font-size: 1.8cqw; letter-spacing: 0.22em; text-transform: uppercase; color: var(--text-muted); }
+.ledger dd { margin: 0; font-family: var(--font-serif); font-weight: 700; font-size: 6.4cqw; letter-spacing: -0.03em; line-height: 1; background: linear-gradient(180deg, #fff3c4, #f5c451 60%, #c98a1f); -webkit-background-clip: text; background-clip: text; color: transparent; white-space: nowrap; }
+.ledger small { font-family: var(--font-mono); font-size: 2cqw; color: var(--text-secondary); }

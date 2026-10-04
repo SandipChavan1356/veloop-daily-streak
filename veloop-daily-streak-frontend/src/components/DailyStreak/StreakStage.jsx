@@ -1,61 +1,37 @@
-import { Fragment } from 'react';
-import Asset from '../common/Asset';
-import StreakCore from './StreakCore';
-import TodayDrop from './TodayDrop';
-import { earnedTotals, pad2 } from '../../utils/streakState';
-import { rewardLabel } from '../../utils/format';
+import StreakPass from './StreakPass';
+import CouponStub from './CouponStub';
+import { pad2 } from '../../utils/streakState';
 import styles from './StreakStage.module.css';
 
 const mood = ({ completed, streak, claimable }) =>
-  completed ? 'The chain is complete.' : claimable ? "Today's drop is waiting." : streak.currentStreak > 0 ? 'Secured. See you when the timer ends.' : 'Start the chain today.';
+  completed ? 'The chain is complete.' : claimable ? 'Today’s drop is waiting.' : streak.currentStreak > 0 ? 'Secured. The next drop is on the clock.' : 'Start the chain today.';
 
-// Asymmetric stage: identity (left) · the Core (centre) · today's drop (right).
-// No enclosing card — the three live directly on the page atmosphere.
-export default function StreakStage({ streak, rewards, serverTime, onClaim, claiming, completed, onTimerComplete, burstKey, notices }) {
+// Hero: a headline, the Pass (left, big, 3D) and today's coupon (right).
+export default function StreakStage({ streak, rewards, serverTime, onClaim, claimingDay, celebration, failDay, completed, onTimerComplete, notices }) {
   const claimable = rewards.some((r) => r.isToday && r.status === 'AVAILABLE');
-  const earned = earnedTotals(rewards);
-  const banked = [earned.ves ? `+${earned.ves} VES` : null, earned.inr ? `₹${earned.inr}` : null].filter(Boolean).join('  ·  ') || '—';
-  const days = streak.currentStreak ?? 0;
-
-  const rows = [
-    ['Chain', `${days} ${days === 1 ? 'day' : 'days'}`],
-    ['Banked', banked],
-    ['Next unlock', streak.nextReward ? rewardLabel(streak.nextReward) : '—'],
-  ];
-
   return (
-    <div className={styles.wrap}>
-      <div className={styles.stage}>
-        <aside className={`${styles.ident} vl-reveal`} style={{ '--i': 0 }}>
-          <div className={styles.kicker}>Your streak</div>
-          <div className={`${styles.big} tabular`}>
-            {pad2(streak.currentDay)}<i>/{pad2(streak.totalRewards)}</i>
-          </div>
-          <p className={styles.mood}>{mood({ completed, streak, claimable })}</p>
+    <div className={styles.stage}>
+      <span className={styles.numeral} aria-hidden="true">{pad2(streak.currentDay)}</span>
 
-          <dl className={styles.rows}>
-            {rows.map(([k, v]) => (
-              <Fragment key={k}>
-                <dt>{k}</dt>
-                <dd className="tabular">{v}</dd>
-              </Fragment>
-            ))}
-          </dl>
-          <Asset name="biggerStreak" className={styles.growth} />
+      <header className={`${styles.head} vl-reveal`} style={{ '--i': 0 }}>
+        <span className={styles.kicker}>VELoop · Streak pass</span>
+        <h1 className={styles.title}>{mood({ completed, streak, claimable })}</h1>
+      </header>
+
+      <div className={styles.grid}>
+        <div className={`${styles.pass} vl-reveal`} style={{ '--i': 1 }}>
+          <StreakPass streak={streak} rewards={rewards} celebration={celebration} />
           {notices}
-        </aside>
-
-        <div className={`${styles.core} vl-reveal`} style={{ '--i': 1 }}>
-          <StreakCore streak={streak} rewards={rewards} burstKey={burstKey} />
         </div>
-
-        <div className={`${styles.drop} vl-reveal`} style={{ '--i': 2 }}>
-          <TodayDrop
+        <div className={`${styles.coupon} vl-reveal`} style={{ '--i': 2 }}>
+          <CouponStub
             streak={streak}
             rewards={rewards}
             serverTime={serverTime}
             onClaim={onClaim}
-            claiming={claiming}
+            claimingDay={claimingDay}
+            celebration={celebration}
+            failDay={failDay}
             completed={completed}
             onTimerComplete={onTimerComplete}
           />

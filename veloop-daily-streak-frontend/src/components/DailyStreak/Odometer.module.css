@@ -1,0 +1,5 @@
+.odo { display: inline-flex; height: 1em; line-height: 1; overflow: hidden; font-variant-numeric: tabular-nums; }
+.col { display: block; height: 1em; overflow: hidden; }
+.strip { display: flex; flex-direction: column; transition-property: transform; transition-timing-function: cubic-bezier(0.2, 0.9, 0.2, 1); will-change: transform; }
+.strip span { display: block; height: 1em; text-align: center; }
+.sep { display: block; height: 1em; opacity: 0.55; padding: 0 0.04em; }

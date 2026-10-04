@@ -28,3 +28,12 @@ export const earnedTotals = (rewards = []) =>
   );
 
 export const pad2 = (n) => String(n ?? 0).padStart(2, '0');
+
+/**
+ * The visual state of a claim control for `day`:
+ *  'success' — the backend confirmed this day's claim (celebration running)
+ *  'loading' — request in flight
+ *  'error'   — the last attempt failed; stays clickable for a retry
+ */
+export const claimStateFor = (day, { claimingDay, celebrationDay, failDay }) =>
+  celebrationDay === day ? 'success' : claimingDay === day ? 'loading' : failDay === day ? 'error' : 'idle';

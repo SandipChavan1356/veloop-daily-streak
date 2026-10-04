@@ -1,25 +1,30 @@
+import { useMemo } from 'react';
 import ParticleField from './ParticleField';
+import { motionTier } from '../../utils/device';
 import styles from './AnimatedBackground.module.css';
 
-// Layered atmosphere, all cheap: static gradients + grain (no repaint), two
-// transform-only drifting lights, slowly rotating orbit lines, tiny stars and
-// the existing small canvas dust. `focus` picks where the violet light sits:
-// 'core' = behind the streak core, 'auth' = behind the login world.
+// "Obsidian": black base → warm gold spotlight → banknote-style guilloche moiré →
+// a slow light beam → gold dust. Transform/opacity only; tiered by device.
 export default function AnimatedBackground({ variant = 'app' }) {
+  const tier = useMemo(motionTier, []);
   return (
-    <div className={`${styles.bg} ${styles[variant]}`} aria-hidden="true">
+    <div className={`${styles.bg} ${styles[variant]} ${styles[tier]}`} aria-hidden="true">
       <span className={styles.base} />
-      <span className={`${styles.light} ${styles.violet}`} />
-      <span className={`${styles.light} ${styles.gold}`} />
-      <span className={`${styles.light} ${styles.cyan}`} />
-      <svg className={styles.orbits} viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid slice">
-        <g className={styles.spinA}><circle cx="500" cy="500" r="330" /><circle cx="500" cy="500" r="470" /></g>
-        <g className={styles.spinB}><circle cx="500" cy="500" r="620" /><circle cx="500" cy="500" r="790" /></g>
-      </svg>
-      <span className={styles.stars} />
+      <span className={`${styles.glow} ${styles.g1}`} />
+      <span className={`${styles.glow} ${styles.g2}`} />
+      <span className={styles.guilloche} />
+      <span className={styles.beam} />
+      {tier === 'full' && (
+        <>
+          <i className={`${styles.sparkle} ${styles.s1}`} />
+          <i className={`${styles.sparkle} ${styles.s2}`} />
+          <i className={`${styles.sparkle} ${styles.s3}`} />
+          <i className={`${styles.sparkle} ${styles.s4}`} />
+        </>
+      )}
       <span className={styles.grain} />
       <span className={styles.vignette} />
-      <ParticleField density={variant === 'auth' ? 1 : 0.6} />
+      {tier !== 'off' && <ParticleField density={tier === 'lite' ? 0.3 : 0.55} fps={tier === 'lite' ? 30 : 60} />}
     </div>
   );
 }

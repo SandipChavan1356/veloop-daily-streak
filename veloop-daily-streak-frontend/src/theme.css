@@ -6,28 +6,26 @@
    ============================================================ */
 :root {
   /* --- surfaces --- */
-  --bg-0: #060608;
-  --bg-1: #0b0b10;
-  --bg-grad: radial-gradient(110% 80% at 12% -10%, #2a1656 0%, rgba(42, 22, 86, 0) 60%),
-             radial-gradient(80% 60% at 100% 0%, #1d0e3f 0%, rgba(29, 14, 63, 0) 55%),
-             radial-gradient(90% 70% at 90% 110%, #1a0b33 0%, rgba(26, 11, 51, 0) 60%);
-  --surface: #0f0f15;
-  --surface-raised: #15151d;
-  --surface-hover: #1d1d28;
-  --glass: linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.025) 100%);
-  --glass-flat: rgba(255, 255, 255, 0.04);
-  --border: rgba(255, 255, 255, 0.08);
-  --border-strong: rgba(255, 255, 255, 0.16);
+  --bg-0: #070706;
+  --bg-1: #0d0c0a;
+  --bg-grad: none;
+  --surface: #12110e;
+  --surface-raised: #1a1814;
+  --surface-hover: #23201a;
+  --glass: linear-gradient(180deg, rgba(255, 244, 220, 0.06) 0%, rgba(255, 244, 220, 0.025) 100%);
+  --glass-flat: rgba(255, 244, 220, 0.045);
+  --border: rgba(255, 238, 205, 0.09);
+  --border-strong: rgba(255, 238, 205, 0.18);
   --highlight: inset 0 1px 0 rgba(255, 255, 255, 0.06);
   --shadow-card: 0 14px 34px rgba(3, 1, 10, 0.5);
 
   /* --- brand --- */
-  --violet-300: #c4b0ff;
-  --violet-400: #a78bfa;
-  --violet-500: #8b5cf6;
-  --violet-600: #7c3aed;
-  --violet-700: #5b21b6;
-  --violet-glow: rgba(139, 92, 246, 0.45);
+  --violet-300: #efe4c8; /* legacy name — now champagne ivory */
+  --violet-400: #d9cba6;
+  --violet-500: #b9a77c;
+  --violet-600: #8d7d57;
+  --violet-700: #5d5236;
+  --violet-glow: rgba(217, 203, 166, 0.35);
 
   --gold-200: #ffe9a8;
   --gold-300: #ffd977;
@@ -45,13 +43,16 @@
   --red-500: #ef4444;
 
   /* --- text --- */
-  --text-primary: #f5f4f8;
-  --text-secondary: #c3c1ce;
-  --text-muted: #858391;
+  --text-primary: #f6f1e6;
+  --text-secondary: #cbc3b2;
+  --text-muted: #8c8576;
   --text-on-gold: #241405;
 
   /* --- type --- */
   --font-display: "Bricolage Grotesque Variable", "Figtree Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Fraunces Variable", "Iowan Old Style", Georgia, serif;
+  --ivory: #f3ead6;
+  --ivory-ink: #1c160a;
   --font-mono: "JetBrains Mono Variable", ui-monospace, "SF Mono", Menlo, monospace;
   --font-body: "Figtree Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
 
@@ -67,8 +68,8 @@
   --dur-med: 320ms;
   --dur-slow: 640ms;
 
-  --sidebar-w: 76px;
-  --topbar-h: 64px;
+  --sidebar-w: 0px;
+  --topbar-h: 76px;
 
   /* --- streak journey tokens --- */
   --cyan-300: #8be9ff;
@@ -189,6 +190,12 @@ a {
   }
 }
 
-/* staggered entrance: set --i on the element (0,1,2…) */
-@keyframes vl-reveal { from { opacity: 0; transform: translateY(14px); filter: blur(4px); } to { opacity: 1; transform: none; filter: none; } }
-.vl-reveal { animation: vl-reveal 900ms var(--ease-out) both; animation-delay: calc(var(--i, 0) * 120ms + 80ms); }
+/* staggered entrance — transform/opacity only, ~650ms, set --i on the element */
+@keyframes vl-reveal { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+.vl-reveal { animation: vl-reveal 650ms var(--ease-out) both; animation-delay: calc(var(--i, 0) * 130ms + 120ms); }
+/* same idea for below-the-fold sections, triggered when they scroll into view (<Reveal/>) */
+.vl-rv { opacity: 0; transform: translateY(16px); transition: opacity 650ms var(--ease-out), transform 650ms var(--ease-out); transition-delay: calc(var(--i, 0) * 70ms); }
+.vl-rv.in { opacity: 1; transform: none; }
+
+/* <picture> wrappers (see <Asset/>) must never affect layout */
+picture { display: contents; }
