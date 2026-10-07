@@ -1,4 +1,3 @@
-// Lazy getters so values are read AFTER dotenv / test setup has populated process.env.
 const toOrigins = (v) =>
   (v || '')
     .split(',')
@@ -33,7 +32,6 @@ const env = {
     const n = parseInt(v, 10);
     return Number.isNaN(n) ? true : n;
   },
-  // Dev tools can never be enabled in production, even by mistake.
   get enableDevTools() {
     return process.env.ENABLE_DEV_TOOLS === 'true' && !this.isProduction;
   },

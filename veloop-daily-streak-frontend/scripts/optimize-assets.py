@@ -14,7 +14,7 @@ from PIL import Image
 
 SRC = 'design-source/VELoop assets'
 OUT = 'public/assets/veloop'
-LADDER = [128, 192, 288, 432, 640, 860]          # css px x dpr candidates
+LADDER = [128, 192, 288, 432, 640, 860]          
 SPEC = {                                          # key: (source file, output stem)
     'coin': ('VEs_Coin.png', 'ves-coin'),
     'giftBurst': ('Day-4.png', 'day-4'),
