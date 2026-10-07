@@ -7,7 +7,7 @@ const streakClaimSchema = new mongoose.Schema(
     cycleNumber: { type: Number },
     day: { type: Number, required: true, min: 1 },
     rewardId: { type: mongoose.Schema.Types.ObjectId, ref: 'StreakReward', required: true },
-    // What was ACTUALLY granted. If reward config changes later, history stays truthful.
+   
     rewardSnapshot: {
       type: { type: String },
       currency: { type: String },
@@ -24,7 +24,6 @@ const streakClaimSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-// The database-level guarantee behind duplicate + concurrent claim protection.
 streakClaimSchema.index({ userId: 1, cycleId: 1, day: 1 }, { unique: true });
 
 module.exports = mongoose.model('StreakClaim', streakClaimSchema);

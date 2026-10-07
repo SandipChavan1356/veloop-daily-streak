@@ -16,12 +16,10 @@ const walletTransactionSchema = new mongoose.Schema(
     currency: { type: String, enum: ['VES', 'INR'], required: true },
     source: { type: String, default: 'DAILY_STREAK' },
     streakDay: { type: Number },
-    // Full claim id => globally unique, so a claim can never be credited twice.
     claimId: { type: mongoose.Schema.Types.ObjectId, ref: 'StreakClaim' },
     referenceId: { type: String, required: true },
     balanceBefore: { type: Number, required: true },
     balanceAfter: { type: Number, required: true },
-    // Gift cards are logged + credited to the INR balance, then paid out manually.
     fulfilmentStatus: { type: String, enum: ['NOT_REQUIRED', 'PENDING', 'FULFILLED'], default: 'NOT_REQUIRED' },
     status: { type: String, enum: ['SUCCESS', 'FAILED'], default: 'SUCCESS' },
   },

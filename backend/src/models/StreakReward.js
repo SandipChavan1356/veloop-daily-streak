@@ -9,7 +9,6 @@ const streakRewardSchema = new mongoose.Schema(
     title: { type: String, required: true }, // "Daily Reward" / "Ultimate Reward"
     subtitle: { type: String }, // "10 VEs" / "Amazon Gift Card"
     description: { type: String },
-    // Which static frontend image to render. Not a business value.
     assetType: { type: String, enum: ['coin', 'gift-box', 'gift-card', 'crown'], required: true },
     badge: { type: String }, // "Gift Card" | "Coin" | "VIP" (the "Today" badge is dynamic)
     active: { type: Boolean, default: true },
