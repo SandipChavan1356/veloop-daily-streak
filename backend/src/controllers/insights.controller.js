@@ -1,8 +1,7 @@
 const asyncHandler = require('../utils/asyncHandler');
 const insights = require('../services/insights.service');
 
-// Read-only endpoints. The user is always taken from the JWT (req.user.id) — no
-// client-supplied user id is ever read.
+
 
 const overview = asyncHandler(async (req, res) => {
   res.json(await insights.getOverview(req.user.id, { tzOffset: req.query.tzOffset }));

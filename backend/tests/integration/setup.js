@@ -1,7 +1,4 @@
-// Shared MongoDB Memory Replica Set bootstrap for integration tests.
-// Requires internet access on first run (downloads a mongod binary) - this is
-// normal for mongodb-memory-server and only happens once per machine (cached
-// under ~/.cache/mongodb-binaries afterwards).
+
 process.env.NODE_ENV = 'test';
 process.env.JWT_SECRET = 'test-secret-please-do-not-use-in-prod-xxxxxxxx';
 process.env.ENABLE_DEV_TOOLS = 'true';

@@ -6,8 +6,7 @@ const { validateClaimBody } = require('../validators/streak.validator');
 
 const router = express.Router();
 
-router.use(protect); // every daily-streak route requires a logged-in user
-
+router.use(protect); 
 router.get('/', readLimiter, getDailyStreak);
 router.get('/status', readLimiter, getStatus);
 router.post('/claim/initiate', claimLimiter, validateClaimBody, initiateClaim);

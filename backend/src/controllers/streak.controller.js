@@ -9,13 +9,11 @@ const getStatus = asyncHandler(async (req, res) => {
   res.json(await streakService.buildLightStatus(req.user.id));
 });
 
-// Starts the CPA/ad demo step. Grants nothing by itself (doc section 7, 68).
 const initiateClaim = asyncHandler(async (req, res) => {
   const { day } = req.body || {};
   res.json(await streakService.initiateClaim(req.user.id, day));
 });
 
-// The only place a reward is actually granted.
 const claim = asyncHandler(async (req, res) => {
   const { day, sessionToken } = req.body || {};
   res.json(await streakService.claimReward(req.user.id, day, sessionToken));

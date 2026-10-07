@@ -1,6 +1,4 @@
 const ApiError = require('../utils/ApiError');
-
-// Never leak MongoServerError / CastError / stack traces to the client.
 const errorHandler = (err, req, res, next) => {
   if (err instanceof ApiError) {
     return res.status(err.statusCode).json({
@@ -27,8 +25,7 @@ const errorHandler = (err, req, res, next) => {
     });
   }
 
-  console.error(err); // full detail stays in server logs only
-
+  console.error(err);
   return res.status(500).json({
     success: false,
     code: 'SERVER_ERROR',

@@ -106,10 +106,7 @@ test('duplicate claim (same request twice) is idempotent: no double reward', asy
   const first = await request(app).post('/api/daily-streak/claim').set('Authorization', `Bearer ${token}`).send({});
   assert.equal(first.status, 200);
 
-  // Force the user back to "still on day 1, still eligible" is impossible via the API
-  // (that's the point) - so we simulate a genuine double-submit by hitting claim again
-  // immediately: day has already advanced server-side, so this call is correctly LOCKED,
-  // not a duplicate-day grant. This documents the real behaviour under a double click.
+  
   const second = await request(app).post('/api/daily-streak/claim').set('Authorization', `Bearer ${token}`).send({});
   assert.equal(second.status, 423);
 
@@ -150,9 +147,7 @@ test('changing device clock cannot unlock early: only advancing SERVER time work
   const token = await registerAndLogin('i');
   await request(app).post('/api/daily-streak/claim').set('Authorization', `Bearer ${token}`).send({});
 
-  // Client-side clock manipulation has no channel to the backend at all in this
-  // API (there is no "clientTime" field anywhere) - so the real test is that
-  // Day 2 stays locked until the dev-only SERVER clock is advanced.
+  
   const stillLocked = await request(app).get('/api/daily-streak/status').set('Authorization', `Bearer ${token}`);
   assert.equal(stillLocked.body.status, 'LOCKED');
 
@@ -168,7 +163,6 @@ test('missed streak resets to Day 1 with streak 0', async () => {
   const token = await registerAndLogin('j');
   await request(app).post('/api/daily-streak/claim').set('Authorization', `Bearer ${token}`).send({}); // Day 1
 
-  // Advance past nextClaimAt AND the claim window without claiming -> Day 2 is missed.
   await request(app).post('/api/dev/time-travel').set('Authorization', `Bearer ${token}`).send({ hours: 49 });
 
   const status = await request(app).get('/api/daily-streak').set('Authorization', `Bearer ${token}`);
@@ -180,14 +174,12 @@ test('missed streak resets to Day 1 with streak 0', async () => {
 });
 
 test('previous-day validation: cannot claim Day 2 without Day 1 in the same cycle', async () => {
-  // This is defence-in-depth - the normal API can't even construct this state,
-  // so we assert the guard exists at the service layer directly.
+  
   const streakService = require('../../src/services/streak.service');
   const { User, Wallet, StreakCycle } = require('../../src/models');
 
   const user = await User.create({ username: 'seqtest', email: 'seq@test.com', password: 'Passw0rd!' });
   await Wallet.create({ userId: user._id, balances: { VES: 0, INR: 0 } });
-  // Manually fabricate an inconsistent cycle sitting on Day 2 with nothing claimed.
   await StreakCycle.create({ userId: user._id, cycleNumber: 1, currentDay: 2, currentStreak: 1, nextClaimAt: null });
 
   await assert.rejects(

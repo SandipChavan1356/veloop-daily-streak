@@ -1,6 +1,3 @@
-// DEV-ONLY helpers for testing the 24h timer and missed-day reset without waiting
-// in real time. Mounted only when ENABLE_DEV_TOOLS=true, which is itself hard-
-// disabled whenever NODE_ENV=production (see src/config/env.js).
 const express = require('express');
 const asyncHandler = require('../utils/asyncHandler');
 const ApiError = require('../utils/ApiError');

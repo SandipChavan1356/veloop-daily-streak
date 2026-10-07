@@ -3,9 +3,6 @@ const ApiError = require('../utils/ApiError');
 const clock = require('../utils/clock');
 const calc = require('../utils/insights.calc');
 
-// One round-trip's worth of per-user history. A user's history is small (a handful of
-// claims per cycle), so loading it lean and deriving everything in memory is cheaper and
-// far easier to test than five separate aggregation pipelines.
 const loadHistory = async (userId) => {
   const [claims, cycles, txns] = await Promise.all([
     StreakClaim.find({ userId }).select('cycleId day claimedAt').lean(),
@@ -86,8 +83,6 @@ const getActivity = async (userId, { page = 1, limit = 20 } = {}) => {
   return { success: true, page: p, limit: l, total, activity: calc.buildActivity(txns, l) };
 };
 
-// Ranks users by their best streak inside a single cycle, then by total check-ins
-// (earlier last-claim wins a tie). Only the public username is exposed.
 const getLeaderboard = async (userId, { limit = 10 } = {}) => {
   const top = Math.min(Math.max(parseInt(limit, 10) || 10, 1), 50);
 

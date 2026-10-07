@@ -1,16 +1,9 @@
-// Pure, dependency-free calculations behind the /api/insights endpoints.
-//
-// Everything the dashboard shows (longest streak, weekly chart, achievements,
-// milestones) is derived HERE, from claim/transaction history in MongoDB —
-// the frontend only renders it. Keeping this file free of mongoose/express
-// makes it trivially unit-testable (tests/unit/insights.test.js).
+
 
 const MS_PER_MINUTE = 60 * 1000;
 const WEEKDAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
-// Clamp the client-provided timezone offset (minutes ahead of UTC, e.g. IST = 330).
-// It only decides which calendar day a claim is bucketed into for the weekly chart —
-// it can never influence a reward, streak or claim decision.
+
 const normalizeTzOffset = (value) => {
   const n = parseInt(value, 10);
   if (!Number.isFinite(n)) return 0;
@@ -32,7 +25,6 @@ const isCredit = (t) => t.status !== 'FAILED' && (t.type || 'CREDIT') === 'CREDI
  * @param {Date}   input.now     trusted server time
  */
 const computeStats = ({ claims = [], cycles = [], txns = [], now = new Date() }) => {
-  // A streak inside a cycle == number of claims in that cycle (cycles reset on a miss).
   const perCycle = new Map();
   for (const c of claims) {
     const k = String(c.cycleId);
@@ -42,8 +34,6 @@ const computeStats = ({ claims = [], cycles = [], txns = [], now = new Date() })
 
   const active = cycles.find((c) => c.status === 'ACTIVE');
   let currentStreak = active ? active.currentStreak || 0 : 0;
-  // An unclaimed, expired window means the streak is already broken even if the
-  // reset hasn't been persisted yet (it is persisted on the next /daily-streak read).
   if (active && active.claimDeadline && new Date(now) > new Date(active.claimDeadline)) currentStreak = 0;
 
   const credits = txns.filter(isCredit);
@@ -65,7 +55,6 @@ const computeStats = ({ claims = [], cycles = [], txns = [], now = new Date() })
   };
 };
 
-/** Last 7 local calendar days ending today (oldest first). */
 const buildWeek = ({ claims = [], txns = [], now = new Date(), tzOffsetMin = 0 }) => {
   const todayKey = dayKey(now, tzOffsetMin);
   const days = [];
@@ -127,7 +116,6 @@ const buildMilestones = (stats) =>
     };
   });
 
-/** Newest-first activity feed built from wallet transactions. */
 const buildActivity = (txns = [], limit = 10) =>
   txns
     .filter(isCredit)

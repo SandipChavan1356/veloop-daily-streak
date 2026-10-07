@@ -1,7 +1,5 @@
 const ApiError = require('../utils/ApiError');
 
-// `day`, if sent at all, is never authoritative (doc section 35-36) - this only
-// rejects obviously malformed input before it reaches the streak service.
 const validateClaimBody = (req, res, next) => {
   const { day, sessionToken } = req.body || {};
 

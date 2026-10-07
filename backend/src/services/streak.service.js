@@ -16,17 +16,7 @@ const getConfig = async () => {
   return config;
 };
 
-// ---------------------------------------------------------------------------
-// Eligibility & missed-day logic
-//
-// Two SEPARATE timestamps drive this, which is the fix for the earlier
-// "next claim time" / "claim window" conflation:
-//   nextClaimAt   -> the day is LOCKED until this moment (the 24h cooldown).
-//   claimDeadline -> once unlocked, the user has until this moment to claim
-//                    before the streak is considered MISSED.
-// Both are only set once a claim actually happens - a fresh Day 1 has neither,
-// so a user can never be "missed" before they've even started (doc section 51).
-// ---------------------------------------------------------------------------
+
 
 const isEligibleNow = (cycle, now = clock.now()) => {
   if (!cycle.nextClaimAt) return true;
@@ -38,13 +28,6 @@ const isCycleMissed = (cycle, now = clock.now()) => {
   return now > cycle.claimDeadline;
 };
 
-// ---------------------------------------------------------------------------
-// Active cycle resolution - the single source of truth for "what day is the
-// user actually on". Nothing here ever reads from the client. Handles the
-// race where two simultaneous requests both try to create/reset a cycle by
-// relying on the unique "one active cycle per user" index and retrying once
-// on a duplicate-key error.
-// ---------------------------------------------------------------------------
 
 const createFreshCycle = async (userId, cycleNumber) =>
   StreakCycle.create({ userId, cycleNumber, currentDay: 1, currentStreak: 0 });
@@ -96,10 +79,6 @@ const getOrCreateActiveCycle = async (userId, { retried = false } = {}) => {
 
   return { cycle, config, wasReset: false };
 };
-
-// ---------------------------------------------------------------------------
-// Status payloads
-// ---------------------------------------------------------------------------
 
 const buildStatusResponse = async (userId) => {
   const { cycle, config, wasReset } = await getOrCreateActiveCycle(userId);

@@ -26,7 +26,6 @@ test('normalizeTzOffset clamps and defaults', () => {
 });
 
 test('dayKey buckets a claim into the caller\'s local day', () => {
-  // 20:00 UTC is already the next day in IST (+5:30)
   const at = new Date('2026-09-30T20:00:00.000Z');
   assert.equal(calc.dayKey(at, 0), '2026-09-30');
   assert.equal(calc.dayKey(at, 330), '2026-10-01');

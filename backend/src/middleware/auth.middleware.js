@@ -7,7 +7,6 @@ const { User } = require('../models');
 
 const NOT_AUTH = 'Please log in to continue.';
 
-// Identity comes from the JWT only. Any userId in body/query/params is never used.
 const protect = asyncHandler(async (req, res, next) => {
   const authHeader = req.headers.authorization;
   if (!authHeader || !authHeader.startsWith('Bearer ')) {

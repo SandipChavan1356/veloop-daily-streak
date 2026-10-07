@@ -1,8 +1,7 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
 
-// Re-implement the guard's shape check in isolation would duplicate logic, so
-// instead we exercise the actual middleware function directly.
+
 const { sanitizeInput } = require('../../src/middleware/sanitize.middleware');
 
 const run = (body) => {

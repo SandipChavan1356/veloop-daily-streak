@@ -9,10 +9,7 @@ const getOrCreateWallet = async (userId, session) => {
   return wallet;
 };
 
-// Credits `amount` of `currency` to the wallet and returns the before/after balances.
-// VES = spendable gems, credited immediately and usable in-app.
-// INR = gift-card value earned; still recorded here so "balance" is always truthful,
-// but the actual gift card is fulfilled manually by the VELoop team (see WalletTransaction.fulfilmentStatus).
+
 const creditWallet = async (userId, currency, amount, session) => {
   const wallet = await getOrCreateWallet(userId, session);
   const balanceBefore = wallet.balances.get(currency) || 0;

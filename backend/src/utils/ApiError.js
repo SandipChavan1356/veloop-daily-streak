@@ -3,7 +3,7 @@ class ApiError extends Error {
     super(message);
     this.statusCode = statusCode;
     this.code = code || 'ERROR';
-    this.data = data; // optional safe extra fields (e.g. nextClaimAt) returned to the client
+    this.data = data; 
   }
 }
 
